@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -97,7 +98,8 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("bad status from LogDNA: %s", res.Status)
+		bod, _ := io.ReadAll(res.Body)
+		return fmt.Errorf("bad status from LogDNA: %s: %s", res.Status, bod)
 	}
 
 	return nil
