@@ -5,7 +5,7 @@ import (
 	"os"
 
 	// Blank-import the function package so the init() runs
-	_ "github.com/barebitcoin/logdna-gcp/logdna"
+	_ "github.com/barebitcoin/logdna-gcp"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/funcframework"
 )
