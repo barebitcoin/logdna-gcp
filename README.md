@@ -12,8 +12,7 @@ can be found
 
 ```bash
 $ INGESTION_KEY=<LOGDNA ingestion key>
-$ REPO=<URL to GCP Cloud Source Repository>
-$ TOPIC=<Pub/Sub log topic name>
+$ PUBSUB_LOG_TOPIC=<Pub/Sub log topic name>
 $ REGION=<Desired GCP Region>
 $ gcloud functions deploy logdna-gcp \
       --runtime=go120 \
