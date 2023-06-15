@@ -65,10 +65,18 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 		return err
 	}
 
+	timestamp := msg.Message.PublishTime
+	if rawTimestamp, ok := parsed["timestamp"].(string); ok {
+		parsed, err := time.Parse(time.RFC3339Nano, rawTimestamp)
+		if err == nil {
+			timestamp = parsed
+		}
+	}
+
 	body := map[string]any{
 		"lines": []any{
 			map[string]any{
-				"timestamp": fmt.Sprintf("%d", msg.Message.PublishTime.UnixMilli()),
+				"timestamp": fmt.Sprintf("%d", timestamp.UnixMilli()),
 				"app":       labels["service_name"],
 				"line":      string(line),
 			},
