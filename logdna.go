@@ -73,11 +73,15 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 		}
 	}
 
+	app := labels["service_name"]
+	if job, ok := labels["job_name"]; ok {
+		app = job
+	}
 	body := map[string]any{
 		"lines": []any{
 			map[string]any{
 				"timestamp": fmt.Sprintf("%d", timestamp.UnixMilli()),
-				"app":       labels["service_name"],
+				"app":       app,
 				"line":      string(line),
 			},
 		},

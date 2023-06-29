@@ -1,8 +1,8 @@
 This repo contains source code for a GCP Cloud Function. It listens for log
 lines over Pub/Sub, and forwards them to Mezmo (previously called LogDNA).
 
-The Cloud Function currently expects log lines from Cloud Run services. No idea
-how it fares on log lines from other GCP sources.
+The Cloud Function currently expects log lines from Cloud Run Service or Jobs.
+No idea how it fares on log lines from other GCP sources.
 
 You need to set up a logging sink that exports to a Pub/Sub topic. Docs on this
 can be found
