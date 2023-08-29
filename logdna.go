@@ -77,12 +77,21 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 	if job, ok := labels["job_name"]; ok {
 		app = job
 	}
+
+	var meta map[string]string
+	if rev, ok := labels["revision_name"]; ok {
+		meta = map[string]string{
+			"revision": rev,
+		}
+	}
+
 	body := map[string]any{
 		"lines": []any{
 			map[string]any{
 				"timestamp": fmt.Sprintf("%d", timestamp.UnixMilli()),
 				"app":       app,
 				"line":      string(line),
+				"meta":      meta,
 			},
 		},
 	}
