@@ -60,7 +60,15 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 	}
 	url := "https://logs.logdna.com/logs/ingest?" + values.Encode()
 
-	line, err := json.Marshal(parsed["jsonPayload"])
+	payload, ok := parsed["jsonPayload"]
+	if !ok {
+		payload, ok = parsed["textPayload"]
+		if !ok {
+			return fmt.Errorf("could not find payload: dumping message: %s", string(msg.Message.Data))
+		}
+	}
+
+	line, err := json.Marshal(payload)
 	if err != nil {
 		return err
 	}
