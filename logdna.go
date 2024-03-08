@@ -14,6 +14,7 @@ import (
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
 	"github.com/samber/lo"
+	"github.com/tidwall/gjson"
 )
 
 var ingestionKey = os.Getenv("INGESTION_KEY")
@@ -82,11 +83,17 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 		}
 	}
 
-	app, _ := lo.Coalesce(
+	app, ok := lo.Coalesce(
 		labels["service_name"],
 		labels["job_name"],
-		fmt.Sprint(parsed["cos.googleapis.com/container_name"]),
+		gjson.GetBytes(
+			msg.Message.Data,
+			`jsonPayload.cos\.googleapis\.com/container_name`,
+		).String(),
 	)
+	if !ok {
+		app = "unknown"
+	}
 
 	var meta map[string]string
 	if rev, ok := labels["revision_name"]; ok {
