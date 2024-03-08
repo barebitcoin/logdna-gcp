@@ -13,6 +13,7 @@ import (
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
+	"github.com/samber/lo"
 )
 
 var ingestionKey = os.Getenv("INGESTION_KEY")
@@ -81,10 +82,11 @@ func logDNAUpload(ctx context.Context, e event.Event) error {
 		}
 	}
 
-	app := labels["service_name"]
-	if job, ok := labels["job_name"]; ok {
-		app = job
-	}
+	app, _ := lo.Coalesce(
+		labels["service_name"],
+		labels["job_name"],
+		fmt.Sprint(parsed["cos.googleapis.com/container_name"]),
+	)
 
 	var meta map[string]string
 	if rev, ok := labels["revision_name"]; ok {

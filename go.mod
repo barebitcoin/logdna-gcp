@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/GoogleCloudPlatform/functions-framework-go v1.7.3
 	github.com/cloudevents/sdk-go/v2 v2.14.0
+	github.com/samber/lo v1.39.0
 )
 
 require (
@@ -16,4 +17,5 @@ require (
 	go.uber.org/atomic v1.4.0 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.10.0 // indirect
+	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91 // indirect
 )
